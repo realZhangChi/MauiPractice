@@ -13,8 +13,8 @@ public partial class MainPage : ContentPage {
         InitializeComponent();
     }
 
-    private void OnCounterClicked(object sender, EventArgs e) {
-
+    private void OnCounterClicked(object sender, EventArgs e)
+    {
         BottomMenu.Show("菜单", new[] { "菜单1", "菜单2", "菜单3" })?
             .SetOnMenuItemClickListener(new MenuItemClickListener() {
                 OnMenuItemClick = (menu, menuName, menuIndex) => {
