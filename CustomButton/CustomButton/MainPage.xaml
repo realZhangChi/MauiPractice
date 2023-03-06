@@ -33,7 +33,7 @@
             <components:MagicButton
                 HeightRequest="60"
                 WidthRequest="200"
-                BackgroundColor="{StaticResource Blue300Accent}"
+                BackgroundColor="Blue"
                 StrokeColor="{StaticResource Black}"
                 StrokeThickness="3"
                 FontColor="{StaticResource Cyan300Accent}"

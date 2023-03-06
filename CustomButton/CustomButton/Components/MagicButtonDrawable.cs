@@ -39,8 +39,8 @@ public class MagicButtonDrawable : IDrawable {
 
         var x = dirtyRect.X + StrokeThickness;
         var y = dirtyRect.Y + StrokeThickness;
-        var width = dirtyRect.Width - StrokeThickness;
-        var height = dirtyRect.Height - StrokeThickness;
+        var width = dirtyRect.Width - StrokeThickness * 2;
+        var height = dirtyRect.Height - StrokeThickness * 2;
 
         canvas.FillRoundedRectangle(x, y, width, height, height / 2);
 
