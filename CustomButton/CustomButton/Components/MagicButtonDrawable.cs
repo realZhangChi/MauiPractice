@@ -2,6 +2,18 @@
 
 public class MagicButtonDrawable : IDrawable {
 
+    public Color StrokeColor { get; set; }
+
+    public float StrokeThickness { get; set; }
+
+    public Color BackgroundColor { get; set; }
+
+    public int FontSize { get; set; }
+
+    public Color FontColor { get; set; }
+
+    public string Text { get; set; }
+
     public void Draw(ICanvas canvas, RectF dirtyRect) {
         DrawStroke(canvas, dirtyRect);
         DrawBackground(canvas, dirtyRect);
@@ -12,7 +24,7 @@ public class MagicButtonDrawable : IDrawable {
 
         canvas.SaveState();
 
-        canvas.SetFillPaint(new SolidPaint(Brush.LightBlue.Color), dirtyRect);
+        canvas.SetFillPaint(new SolidPaint(StrokeColor), dirtyRect);
 
         canvas.FillRoundedRectangle(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height, dirtyRect.Height / 2);
 
@@ -25,11 +37,10 @@ public class MagicButtonDrawable : IDrawable {
 
         canvas.SetFillPaint(new SolidPaint(Brush.Blue.Color), dirtyRect);
 
-        var strokeThickness = 3;
-        var x = dirtyRect.X + strokeThickness;
-        var y = dirtyRect.Y + strokeThickness;
-        var width = dirtyRect.Width - strokeThickness;
-        var height = dirtyRect.Height - strokeThickness;
+        var x = dirtyRect.X + StrokeThickness;
+        var y = dirtyRect.Y + StrokeThickness;
+        var width = dirtyRect.Width - StrokeThickness;
+        var height = dirtyRect.Height - StrokeThickness;
 
         canvas.FillRoundedRectangle(x, y, width, height, height / 2);
 
@@ -39,9 +50,9 @@ public class MagicButtonDrawable : IDrawable {
     public void DrawText(ICanvas canvas, RectF dirtyRect) {
         canvas.SaveState();
 
-        canvas.FontColor = Brush.White.Color;
-        canvas.FontSize = 16;
-        canvas.DrawString("Magic Button", dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height,
+        canvas.FontColor = FontColor;
+        canvas.FontSize = FontSize;
+        canvas.DrawString(Text, dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height,
             HorizontalAlignment.Center,
             VerticalAlignment.Center);
 

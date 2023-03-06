@@ -31,8 +31,15 @@
 
             <!--使用自定义的 MagicButton-->
             <components:MagicButton
-                HeightRequest="50"
-                WidthRequest="150"></components:MagicButton>
+                HeightRequest="60"
+                WidthRequest="200"
+                BackgroundColor="{StaticResource Blue300Accent}"
+                StrokeColor="{StaticResource Black}"
+                StrokeThickness="3"
+                FontColor="{StaticResource Cyan300Accent}"
+                FontSize="25"
+                BindingContext="{x:Reference CounterBtn}"
+                Text="{Binding Text}"></components:MagicButton>
 
             <Button
                 x:Name="CounterBtn"
