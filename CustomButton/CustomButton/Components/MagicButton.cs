@@ -1,4 +1,6 @@
-﻿namespace CustomButton.Components;
+﻿using System.Windows.Input;
+
+namespace CustomButton.Components;
 
 public class MagicButton : GraphicsView {
 
@@ -85,9 +87,37 @@ public class MagicButton : GraphicsView {
         set => SetValue(TextProperty, value);
     }
 
+    public static BindableProperty CommandProperty = BindableProperty.Create(
+        nameof(Command),
+        typeof(ICommand),
+        typeof(MagicButton));
+
+    public ICommand Command {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public static BindableProperty CommandParameterProperty = BindableProperty.Create(
+        nameof(CommandParameter),
+        typeof(object),
+        typeof(MagicButton));
+
+    public object CommandParameter {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+
+    public event EventHandler Clicked;
 
     public MagicButton() {
         Drawable = new MagicButtonDrawable();
+
+        EndInteraction += OnEndInteraction;
+    }
+
+    private void OnEndInteraction(object sender, TouchEventArgs e) {
+        Clicked?.Invoke(sender, e);
+        Command?.Execute(CommandParameter);
     }
 
     protected override void OnPropertyChanged(string propertyName = null) {
