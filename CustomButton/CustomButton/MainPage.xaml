@@ -35,7 +35,6 @@
                 x:Name="MagicButton"
                 HeightRequest="60"
                 WidthRequest="200"
-                BackgroundColor="Blue"
                 StrokeColor="{StaticResource Black}"
                 StrokeThickness="3"
                 FontColor="{StaticResource Cyan300Accent}"

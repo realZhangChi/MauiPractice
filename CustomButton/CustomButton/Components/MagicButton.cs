@@ -22,6 +22,22 @@ public class MagicButton : GraphicsView {
         set => SetValue(FontColorProperty, value);
     }
 
+    public new static BindableProperty BackgroundColorProperty = BindableProperty.Create(
+        nameof(BackgroundColor),
+        typeof(Color),
+        typeof(MagicButton),
+        null,
+        propertyChanged: (bindable, value, newValue) => {
+            if (bindable is MagicButton magicButton) {
+                magicButton.UpdateBackgroundColor();
+            }
+        });
+
+    public new Color BackgroundColor {
+        get => (Color)GetValue(BackgroundColorProperty);
+        set => SetValue(BackgroundColorProperty, value);
+    }
+
     public static BindableProperty StrokeThicknessProperty = BindableProperty.Create(
         nameof(StrokeThickness),
         typeof(float),
@@ -131,11 +147,20 @@ public class MagicButton : GraphicsView {
             return;
         }
 
+        if (IsEnabled) {
+            VisualStateManager.GoToState(this, "Clicked");
+        }
+
         drawable.TouchPoint = e.Touches[0];
         AnimateRippleEffect();
     }
 
     private void OnEndInteraction(object sender, TouchEventArgs e) {
+
+        if (IsEnabled) {
+            VisualStateManager.GoToState(this, "Normal");
+        }
+
         Clicked?.Invoke(sender, e);
         Command?.Execute(CommandParameter);
     }
@@ -158,6 +183,10 @@ public class MagicButton : GraphicsView {
         UpdateFontSize();
 
         Invalidate();
+    }
+
+    public void UpdateEnableStatus() {
+        VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled");
     }
 
     public void UpdateStrokeColor() {

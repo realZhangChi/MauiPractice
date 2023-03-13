@@ -42,7 +42,7 @@ public class MagicButtonDrawable : IDrawable {
 
         canvas.SaveState();
 
-        canvas.SetFillPaint(new SolidPaint(Brush.Blue.Color), dirtyRect);
+        canvas.SetFillPaint(new SolidPaint(BackgroundColor), dirtyRect);
 
         var x = dirtyRect.X + StrokeThickness;
         var y = dirtyRect.Y + StrokeThickness;
