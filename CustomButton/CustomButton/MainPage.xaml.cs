@@ -4,7 +4,6 @@ namespace CustomButton;
 
 public partial class MainPage : ContentPage {
     int count = 0;
-    private int magicButtonCount = 0;
 
     public MainPage() {
         InitializeComponent();
@@ -23,13 +22,14 @@ public partial class MainPage : ContentPage {
         SemanticScreenReader.Announce(CounterBtn.Text);
     }
 
-    private void MagicButton_OnClicked(object sender, EventArgs e) {
-        magicButtonCount++;
+    private int _magicButtonCount = 0;
+    private void MagicButton_OnClicked(object sender, EventArgs e)
+    {
+        _magicButtonCount++;
 
-        if (magicButtonCount == 1)
-            MagicButton.Text = $"Clicked {magicButtonCount} time";
-        else
-            MagicButton.Text = $"Clicked {magicButtonCount} times";
+        MagicButton.Text = _magicButtonCount == 1 ?
+            $"Clicked {_magicButtonCount} time" :
+            $"Clicked {_magicButtonCount} times";
     }
 }
 

@@ -1,5 +1,7 @@
 ﻿using System.Windows.Input;
 
+using Microsoft.Maui.Animations;
+
 namespace CustomButton.Components;
 
 public class MagicButton : GraphicsView {
@@ -109,10 +111,28 @@ public class MagicButton : GraphicsView {
 
     public event EventHandler Clicked;
 
+    private readonly IAnimationManager _animationManager;
+
     public MagicButton() {
         Drawable = new MagicButtonDrawable();
 
+        StartInteraction += OnStartInteraction;
         EndInteraction += OnEndInteraction;
+
+#if __ANDROID__
+        _animationManager = new AnimationManager(new PlatformTicker(new Microsoft.Maui.Platform.EnergySaverListenerManager()));
+#else
+        _animationManager = new AnimationManager(new PlatformTicker());
+#endif
+    }
+
+    private void OnStartInteraction(object sender, TouchEventArgs e) {
+        if (Drawable is not MagicButtonDrawable drawable) {
+            return;
+        }
+
+        drawable.TouchPoint = e.Touches[0];
+        AnimateRippleEffect();
     }
 
     private void OnEndInteraction(object sender, TouchEventArgs e) {
@@ -206,5 +226,25 @@ public class MagicButton : GraphicsView {
         drawable.Text = Text;
 
         Invalidate();
+    }
+
+    public void AnimateRippleEffect() {
+        if (Drawable is not MagicButtonDrawable drawable) {
+            return;
+        }
+
+        var start = 0f;
+        var end = 1f;
+
+        _animationManager.Add(new Microsoft.Maui.Animations.Animation(
+            (progress) => {
+                drawable.AnimationPercent = start.Lerp(end, progress);
+                Invalidate();
+            },
+            duration: 0.5f,
+            easing: Easing.SinInOut,
+            finished: () => {
+                drawable.AnimationPercent = 0;
+            }));
     }
 }
